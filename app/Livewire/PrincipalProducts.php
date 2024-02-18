@@ -24,6 +24,7 @@ class PrincipalProducts extends Component
 
     public string $campo = 'id';
 
+    #[On('ejecutarConsulta_index')] //? evento que esta definido en CrearProduct.php dentro del metodo store
 
     public function render()
     {
@@ -119,7 +120,7 @@ class PrincipalProducts extends Component
 
         //todo Primero tenemos que comprobar que la imagen sea distinta a noimage.png (default)
 
-        if (basename($product -> imagen) != 'noimagen.png'){
+        if (basename($product -> imagen) != 'noimage.png'){
             Storage::delete($product -> imagen);
         }
 

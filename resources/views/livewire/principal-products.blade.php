@@ -8,13 +8,12 @@
             </div>
 
             <div>
-                {{-- todo Aqui va el boton --}}
+                @livewire('crear-product') {{-- ? Definimos el nombre de la vista para añadir el boton --}}
             </div>
 
         </div>
        
         
-
         {{-- ? Tabla --}}
 
         
