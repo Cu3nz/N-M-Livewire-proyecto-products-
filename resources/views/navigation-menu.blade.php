@@ -20,6 +20,9 @@
                         Gestionar productos
                     </x-nav-link>
                     @endauth
+                    <x-nav-link href="{{ route('email.pintar') }}" :active="request()->routeIs('email/*')">
+                        Contactanos
+                    </x-nav-link>
                 </div>
             </div>
             

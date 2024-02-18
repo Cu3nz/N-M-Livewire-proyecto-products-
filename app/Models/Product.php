@@ -39,4 +39,20 @@ class Product extends Model
         );
     }
 
+    //? Meoto que devuelve todos los TagsIds que tiene un producto en un array 
+
+    public function getTagsId(){
+        // Crea un array vacío llamado $tags para almacenar los IDs de las etiquetas.
+        $tags = [];
+    
+        // Itera sobre la propiedad $this->tags, que se espera sea un array de objetos (cada uno representa una etiqueta).
+        foreach ($this->tags as $tag) {
+            //? Accede a la propiedad id del objeto etiqueta actual ($tag) y la añade al array $tags.
+            //? Esto significa que para cada etiqueta en $this->tags, se está extrayendo su ID y almacenándolo en el array $tags.
+            $tags[] = $tag->id; //todo Cojo el id del tag y lo almaceno en el array
+        }
+        //* Devuelve el array $tags, que ahora contiene los IDs de todas las etiquetas asociadas con el objeto actual.
+        return $tags;
+    }
+
 }

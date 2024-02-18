@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\Socialite\GithubController;
 use App\Livewire\PrincipalProducts;
 use App\Models\Product;
@@ -40,3 +41,8 @@ Route::middleware([
 
 Route::get('/auth/github/redirect' , [GithubController::class , 'redirect']) -> name('github.redirect');
 Route::get('/auth/github/callback' , [GithubController::class , 'callback']) -> name('github.callback');
+
+//todo Para el correo
+
+Route::get('contacto' , [ContactoController::class , 'pintarFormulario']) -> name('email.pintar');
+Route::post('contacto' , [ContactoController::class , 'procesarFormulario']) -> name('email.enviar');

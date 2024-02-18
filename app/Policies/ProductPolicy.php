@@ -5,6 +5,7 @@ namespace App\Policies;
 use Illuminate\Auth\Access\Response;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class ProductPolicy
 {
@@ -45,6 +46,7 @@ class ProductPolicy
          * que la operación de actualización puede proceder, de lo contrario, false
          */
 
+         //dd("User ID: {$user->id}", "Product User ID: {$product->user_id}");
         return $user->id === $product->user_id;
     }
 

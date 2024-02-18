@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Livewire;
-
+use App\Livewire\Forms\UpdateProduct;
 use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class PrincipalProducts extends Component
@@ -24,6 +26,20 @@ class PrincipalProducts extends Component
 
     public string $campo = 'id';
 
+    //todo Para el info 
+
+    public Product $Producto;
+
+    public bool $abrirModalInfo = false;
+
+
+    //todo Para el update
+    use WithFileUploads; //? Para que cargue la imagen en el formulario del update
+
+    public UpdateProduct $form;
+
+    public bool $abrirModalUpdate;
+
     #[On('ejecutarConsulta_index')] //? evento que esta definido en CrearProduct.php dentro del metodo store
 
     public function render()
@@ -38,7 +54,10 @@ class PrincipalProducts extends Component
         })
         ->orderBy($this -> campo , $this -> orden)
         ->paginate(5);
-        return view('livewire.principal-products' , compact('producto'));
+
+        //todo Consulta para el update, necesito traerme todos los tags, es la misma consulta que el create.
+        $misTags = Tag::select('id' , 'nombre' , 'color') -> orderBy('nombre') -> get();
+        return view('livewire.principal-products' , compact('producto' , 'misTags'));
     }
 
 
@@ -103,7 +122,7 @@ class PrincipalProducts extends Component
     }
 
 
-    //* PARA EL DELETE 
+    //todo  PARA EL DELETE 
 
     public function pedirConfirmacion( Product $product){
 
@@ -133,5 +152,58 @@ class PrincipalProducts extends Component
 
     }
 
+
+    //todo Para el info 
+
+    public function info(Product $product){
+
+        //? La línea $this->producto = $Product; se utiliza para almacenar en la variable $Producto (que proviene de public Product $Producto; definida  arriba en las variables) todos los atributos del producto que se pasa como parámetro (pasaremos el id del producto). Esto nos permite acceder a la información del producto en otras partes del código (en este caso desde la modal de info por lo tanto para sacar el nombre tendremos que definir $Producto → nombre),  como por ejemplo, en la vista de la modal donde se muestra la información adicional del producto.
+
+        $this -> Producto = $product;
+
+        $this -> abrirModalInfo = true; //? Abrimos la modal, cuando se haga click en el boton
+
+    }
+
+    public function salirModalInfo(){
+        //todo producto, proviene del nombre de la variable, por lo tanto reseteamos todos los datos del producto para que esten vacios
+        $this -> reset(['Producto' , 'abrirModalInfo']);
+    }
+
+
+    //todo Para el update
+
+    public function edit(Product $product){
+        
+        //? Para asegurarnos que solo pueda editar el producto, si el id del usuario que se ha hecho login = que el user_id del producto
+
+        $this->authorize('update', $product);
+
+        $this -> form  -> setProducto($product); //? Setea todos los valores del producto seleccionado
+
+        $this -> abrirModalUpdate = true;
+
+    }
+
+    public function update(){
+
+        
+
+        $this -> form -> editarProducto();
+
+        $this -> salirModalUpdate();
+
+        $this -> dispatch('mensaje' , 'Producto actualizado');
+
+    }
+
+
+    public function salirModalUpdate(){
+
+        $this -> form -> limpiarCampos();
+
+        $this -> abrirModalUpdate = false;
+
+    }
 
 }
