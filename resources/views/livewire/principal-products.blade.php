@@ -16,9 +16,7 @@
 
 
         {{-- ? Tabla --}}
-
-
-
+        @if(count($producto))
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -123,7 +121,9 @@
         <div class="my-2">
             {{ $producto->links() }}
         </div>
-
+       @else
+       <div>No se ha encontrado nada de lo que has buscado pesao</div> 
+        @endif
 
 
 
@@ -146,7 +146,7 @@
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 {{ $Producto->nombre }}</h5>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                {{ $Producto->descripcion }}
+                                {{ $Producto->id }}
                             </p>
                             <p>Precio: <span>{{ $Producto->pvp }}</span></p>
                             <p>stock: <span>{{ $Producto->stock }}</span></p>
@@ -261,7 +261,7 @@
             </x-slot>
 
             <x-slot name="footer">
-                <button wire:click="edit" wire:loading.attr="disabled"
+                <button wire:click="update" wire:loading.attr="disabled"
                     class="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     <i class="fas fa-edit"></i> Actualizar
                 </button>

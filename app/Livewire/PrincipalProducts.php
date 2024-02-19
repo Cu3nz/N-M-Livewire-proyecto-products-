@@ -177,6 +177,8 @@ class PrincipalProducts extends Component
         
         //? Para asegurarnos que solo pueda editar el producto, si el id del usuario que se ha hecho login = que el user_id del producto
 
+        //dd($product -> id . "-" . auth() -> user() -> id);
+
         $this->authorize('update', $product);
 
         $this -> form  -> setProducto($product); //? Setea todos los valores del producto seleccionado
@@ -186,10 +188,7 @@ class PrincipalProducts extends Component
     }
 
     public function update(){
-
-        
-
-        $this -> form -> editarProducto();
+        $this -> form -> editarProducto(); //* El metodo editarProducto proviene de la clase UpdateForm
 
         $this -> salirModalUpdate();
 
